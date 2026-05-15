@@ -23,3 +23,55 @@ The broader field of how computers understand human language. LLMs are a modern 
 
 ## IBM (International Business Machines)
 One of the oldest tech companies, founded 1911. Now focused on cloud and AI. Known for Watson AI platform and professional certifications.
+
+RAG (Retrieval Augmented Generation) — giving AI your own data before a conversation so it answers based on your information, not general knowledge."
+"Token — a unit of text (roughly 1 word). OpenAI charges per token used in requests and responses."
+"Context window — the maximum amount of text an AI can process in one conversation. If exceeded, AI starts forgetting earlier messages."
+
+"Eval system — automated tests that check if AI responses meet expected criteria. Used to measure reliability and catch failures."
+
+Harness Engineering. - Harness — это оболочка вокруг AI которая контролирует:
+
+Что AI может и не может делать
+Как AI получает контекст
+Как AI маршрутизирует запросы
+Как обрабатываются ошибки
+
+"Harness — a control layer around AI that manages routing, topic filtering, retries, and error handling. Keeps AI within defined boundaries."
+
+Context engineering — это искусство правильно собирать и передавать информацию AI. Не просто system prompt, а полный пакет контекста:
+
+Кто клиент
+История разговора
+Текущая задача
+Ограничения
+Примеры правильных ответов
+
+angChain basics.
+Простое объяснение:
+До сих пор ты писал всё сам — агентов, harness, memory. LangChain это готовая библиотека которая делает это за тебя. Используется в большинстве AI стартапов.
+Tool calling — это когда AI может вызывать реальные функции в твоём коде.
+Например:
+
+Клиент спрашивает погоду → AI вызывает функцию get_weather()
+Клиент хочет забронировать → AI вызывает create_booking()
+Клиент спрашивает цену → AI вызывает calculate_price()
+
+AI сам решает какую функцию вызвать и с какими параметрам
+
+Reliability — это система которая:
+
+Проверяет ответы AI перед тем как отправить клиенту
+Автоматически исправляет ошибки
+Логирует всё что происходит
+
+Прежде чем выпустить AI в продакшн — нужно попытаться его сломать. Это называется adversarial testing — ты специально пишешь плохие запросы чтобы найти проблемы.
+
+"RAG (Retrieval Augmented Generation) — giving AI your own database or documents before a conversation so it answers based on your specific information, not general knowledge."
+
+while True — представь охранник который стоит на посту и постоянно проверяет — пришёл кто-то? Пришёл — обработал. Ушёл — снова ждёт. Бесконечно пока не скажешь "конец смены" (quit).
+if/elif/else — это логика выбора. Как светофор:
+
+if красный → стой
+elif жёлтый → приготовься
+else зелёный → езжай
