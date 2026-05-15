@@ -1,31 +1,44 @@
-# AI Journey 🤖
+# AI Journey 🚗
 
-My path to becoming an AI builder. Building real AI tools from day 1.
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green)
+![LangChain](https://img.shields.io/badge/LangChain-Latest-orange)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-## Projects
+I studied Marketing . Now I'm learning to build AI systems.
 
-### Day 1 - Setup
-First Python code. Development environment ready.
+Not because it's trendy — because I run projects in the real world and I see how much manual work can be automated. Started this journey in May 2026, building something every day.
 
-### Day 2 - Python Basics
-Cleaning service quote calculator built with Python.
+Based in Los Angeles.
 
-### Day 3 - OpenAI API
-AI reply generator for cleaning service clients.
+---
 
-### Day 5 - Prompt Engineering
-AI assistant with multiple tones (luxury/standard/urgent) and pricing.
+## What I've built so far
 
-### Day 6 - VIP Transportation AI
-Full AI concierge for luxury transportation service.
-- Client classification (VIP/Business/Standard)
-- Dynamic pricing
-- Conversation memory
 
-## Tech Stack
-- Python
-- OpenAI API (gpt-4o-mini)
-- Prompt Engineering
-- Git / GitHub
+| Project | What it does |
+|---------|-------------|
+| Cleaning quote calculator | First real Python logic |
+| AI reply generator | First OpenAI API connection |
+| VIP Transportation AI | Prompt engineering with pricing |
+| AI Booking Agent | First autonomous agent |
+| Client Memory System | RAG — AI that remembers customers |
+| Lead Qualifier | Structured JSON outputs |
+| Multi-agent System | 3 agents working as a team |
+| AI Harness | Topic filtering and control layer |
+| Context Engineering | Full client profile injection |
+| Eval System | Automated AI testing |
+| Operations Dashboard | Real-time monitoring |
+| AI Business System | Everything combined |
 
-## Started: May 2026
+## Skills
+
+Prompt engineering · RAG · AI agents · Multi-agent systems · Harness engineering · Context engineering · LangChain · Tool calling · Evals · Cost optimization
+
+## Target
+
+Getting into an AI startup as a builder. Not a prompt user — someone who ships.
+
+## Contact
+
+github.com/YuriiLatush
