@@ -4,22 +4,6 @@
     "history": [
       {
         "role": "user",
-        "content": "I want to buy ice cream in the rode"
-      },
-      {
-        "role": "assistant",
-        "content": "Certainly, Gita! Would you like me to arrange a brief stop for ice cream on the way from UCLA to LAX? If so, please let me know your preferred ice cream shop or area where you would like to stop, and I will adjust the itinerary accordingly."
-      },
-      {
-        "role": "user",
-        "content": "Yep in Beverly"
-      },
-      {
-        "role": "assistant",
-        "content": "Great choice! I'll arrange for a stop in Beverly Hills for ice cream on your way to LAX. \n\nWould you like to specify a particular ice cream shop, or shall I recommend a popular one in the area? Additionally, please let me know how much time you would like for the stop. Thank you!"
-      },
-      {
-        "role": "user",
         "content": "Popular"
       },
       {
@@ -81,6 +65,22 @@
       {
         "role": "assistant",
         "content": "It seems there might have been an error in your message. If you have any additional requests or questions, please feel free to let me know how I can assist you!"
+      },
+      {
+        "role": "user",
+        "content": "I need suv today at night"
+      },
+      {
+        "role": "assistant",
+        "content": "I would be happy to assist you with that! Please provide the following details:\n\n1. Pickup location\n2. Destination\n3. Number of passengers \n4. Desired pickup time\n\nOnce I have this information, I can provide you with a quote and arrange your VIP SUV transportation. Thank you!"
+      },
+      {
+        "role": "user",
+        "content": "i need suv today"
+      },
+      {
+        "role": "assistant",
+        "content": "I understand that you need a SUV for today. To assist you effectively, could you please provide me with the following details?\n\n1. Pickup location\n2. Destination\n3. Number of passengers \n4. Desired pickup time\n\nThis information will allow me to prepare an accurate quote for you. Thank you!"
       }
     ],
     "score": "HOT",
@@ -92,7 +92,7 @@
         "at": "2026-05-17 00:44"
       }
     ],
-    "interactions": 18,
+    "interactions": 20,
     "quotes": [
       {
         "service": "airport_suv",
@@ -108,7 +108,30 @@
         "service": "airport_suv",
         "price": 207,
         "time": "2026-05-17 02:19"
+      },
+      {
+        "service": "airport_suv",
+        "price": 180,
+        "time": "2026-05-18 03:31"
       }
     ]
+  },
+  "388062955": {
+    "name": "Alex",
+    "history": [
+      {
+        "role": "user",
+        "content": "ye tomorow at 14 00\\"
+      },
+      {
+        "role": "assistant",
+        "content": "Thank you for considering Elite Transportation LA! To better assist you, could you please provide the following details for your request tomorrow at 14:00?\n\n1. **Pick-up location** \n2. **Drop-off location** \n3. **Number of passengers**\n4. **Type of vehicle preferred (e.g., Sedan, SUV, Luxury Van)**\n\nOnce I have this information, I will promptly prepare an elegant quote for your transportation needs."
+      }
+    ],
+    "score": "COLD",
+    "max_score": "COLD",
+    "score_history": [],
+    "interactions": 1,
+    "quotes": []
   }
 }
