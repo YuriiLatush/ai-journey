@@ -1,5 +1,6 @@
 import os
 import json
+import httpx
 import psycopg2
 from datetime import datetime
 from telegram import Update
@@ -12,6 +13,7 @@ load_dotenv()
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 DATABASE_URL = os.getenv("DATABASE_URL")
+N8N_WEBHOOK = "http://localhost:5678/webhook/397fb073-1c9d-4d4f-a227-0da3b3d66b29"
 
 SCORE_RANK = {"COLD": 0, "WARM": 1, "HOT": 2}
 
@@ -114,6 +116,10 @@ def calculate_price(service, client_type, hour, day_of_week, hours=1):
         adjustments.append("VIP -10%")
     return round(price), adjustments
 
+async def notify_hot_lead(name, score):
+    async with httpx.AsyncClient() as client:
+        await client.post(N8N_WEBHOOK, json={"name": name, "score": score})
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🚗 Welcome to Elite Transportation LA!\n\nTell me about your transportation needs."
@@ -146,6 +152,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         details = {"score": "COLD", "service": "unknown", "client_type": "Standard", "pickup_hour": 12, "hours": 1, "ready_for_quote": False}
 
     current_score = update_score(lead, details["score"])
+
+    if current_score == "HOT":
+        await notify_hot_lead(lead["name"], current_score)
 
     price_context = ""
     if details["ready_for_quote"] and details["service"] != "unknown":
