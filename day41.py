@@ -13,7 +13,7 @@ load_dotenv()
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 DATABASE_URL = os.getenv("DATABASE_URL")
-N8N_WEBHOOK = "http://localhost:5678/webhook/397fb073-1c9d-4d4f-a227-0da3b3d66b29"
+N8N_WEBHOOK = "https://maritime-circulate-majestic.ngrok-free.dev/webhook/397fb073-1c9d-4d4f-a227-0da3b3d66b29"
 
 SCORE_RANK = {"COLD": 0, "WARM": 1, "HOT": 2}
 
