@@ -4,30 +4,6 @@
     "history": [
       {
         "role": "user",
-        "content": "Popular"
-      },
-      {
-        "role": "assistant",
-        "content": "I recommend visiting **Salt & Straw**, a popular ice cream shop in Beverly Hills known for its unique flavors and delightful treats. \n\nHow much time would you like to allocate for your ice cream stop? This will help me adjust the schedule adequately."
-      },
-      {
-        "role": "user",
-        "content": "I need a VIP SUV to LAX tonight at 11pm"
-      },
-      {
-        "role": "assistant",
-        "content": "Thank you for your request! Just to confirm, you need a VIP SUV for transportation to LAX tonight at 11 PM. \n\nCould you please provide the pickup location, the number of passengers, and any special requests for the vehicle? This will help me prepare an accurate quote for you."
-      },
-      {
-        "role": "user",
-        "content": "from ucla to lax"
-      },
-      {
-        "role": "assistant",
-        "content": "Thank you for the clarification. You need a VIP SUV to travel from UCLA to LAX tonight at 11 PM. \n\nHow many passengers will be traveling with you? Additionally, do you have any specific preferences for the vehicle or any special requests? This will ensure that your experience is tailored to your needs."
-      },
-      {
-        "role": "user",
         "content": "hello i need transport"
       },
       {
@@ -81,6 +57,30 @@
       {
         "role": "assistant",
         "content": "I understand that you need a SUV for today. To assist you effectively, could you please provide me with the following details?\n\n1. Pickup location\n2. Destination\n3. Number of passengers \n4. Desired pickup time\n\nThis information will allow me to prepare an accurate quote for you. Thank you!"
+      },
+      {
+        "role": "user",
+        "content": "i need new transport"
+      },
+      {
+        "role": "assistant",
+        "content": "Certainly! I can assist you with transportation. Please provide the following details:\n\n1. Pickup location\n2. Destination\n3. Number of passengers \n4. Desired pickup time\n\nOnce I have this information, I can help arrange your transport and provide a quote. Thank you!"
+      },
+      {
+        "role": "user",
+        "content": "4 people"
+      },
+      {
+        "role": "assistant",
+        "content": "Thank you for letting me know you need transportation for 4 people. Could you please provide the following additional details?\n\n1. Pickup location\n2. Destination\n3. Desired pickup time\n\nThis information will allow me to assist you further and prepare a quote. "
+      },
+      {
+        "role": "user",
+        "content": "14/00"
+      },
+      {
+        "role": "assistant",
+        "content": "It seems like you may be asking for transportation at 2:00 PM (14:00). Please confirm if that is correct. \n\nAdditionally, I will still need the following information:\n\n1. Pickup location \n2. Destination \n\nOnce I have these details, I can provide you with a quote for your transportation needs. Thank you!"
       }
     ],
     "score": "HOT",
@@ -92,7 +92,7 @@
         "at": "2026-05-17 00:44"
       }
     ],
-    "interactions": 20,
+    "interactions": 23,
     "quotes": [
       {
         "service": "airport_suv",
