@@ -402,15 +402,15 @@ async function loadTracker() {
     el.innerHTML = '<p style="color:#aaa;font-size:14px;padding:20px 0">No emails yet.</p>';
     return;
   }
-  el.innerHTML = d.entries.map(e => {
+  el.innerHTML = d.entries.map((e, i) => {
     const score = e.score || 0;
     const colors = score <= 25 ? '#ef4444' : score <= 50 ? '#f97316' : score <= 70 ? '#eab308' : '#22c55e';
-    return '<div class="entry"><div><div class="entry-co">' + e.company + '</div><div class="entry-meta">' + e.role + ' · ' + e.date + ' · <span style="color:' + colors + ';font-weight:600">' + score + '%</span></div></div><select onchange="updateStatus(\'' + e.company + '\',\'' + e.date + '\',this.value)" style="width:100px;font-size:12px;padding:5px 8px;border-radius:8px"><option ' + (e.status==='pending'?'selected':'') + '>pending</option><option ' + (e.status==='sent'?'selected':'') + '>sent</option><option ' + (e.status==='replied'?'selected':'') + '>replied</option></select></div>';
+    return '<div class="entry"><div><div class="entry-co">' + e.company + '</div><div class="entry-meta">' + e.role + ' · ' + e.date + ' · <span style="color:' + colors + ';font-weight:600">' + score + '%</span></div></div><select onchange="updateStatus(' + e.idx + ',this.value)" style="width:100px;font-size:12px;padding:5px 8px;border-radius:8px"><option ' + (e.status==='pending'?'selected':'') + '>pending</option><option ' + (e.status==='sent'?'selected':'') + '>sent</option><option ' + (e.status==='replied'?'selected':'') + '>replied</option></select></div>';
   }).join('');
 }
 
-async function updateStatus(company, date, status) {
-  await fetch('/update_status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({company, date, status})});
+async function updateStatus(idx, status) {
+  await fetch('/update_status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({idx, status})});
   loadCounts();
 }
 
@@ -481,20 +481,26 @@ def generate():
 @app.route('/counts')
 def counts():
     log = load_log()
-    return jsonify({"total": len(log), "sent": len([x for x in log if x["status"]=="sent"]), "replied": len([x for x in log if x["status"]=="replied"])})
+    return jsonify({"total": len(log), "sent": len([x for x in log if x.get("status")=="sent"]), "replied": len([x for x in log if x.get("status")=="replied"])})
 
 @app.route('/tracker')
 def tracker():
-    return jsonify({"entries": load_log()[::-1]})
+    log = load_log()
+    entries = []
+    for i, item in enumerate(reversed(log)):
+        e = dict(item)
+        e['idx'] = len(log) - 1 - i
+        entries.append(e)
+    return jsonify({"entries": entries})
 
 @app.route('/update_status', methods=['POST'])
 def update_status():
     data = request.json
     log = load_log()
-    for item in log:
-        if item['company'] == data['company'] and item['date'] == data['date']:
-            item['status'] = data['status']
-    save_log(log)
+    idx = data.get('idx')
+    if idx is not None and 0 <= idx < len(log):
+        log[idx]['status'] = data['status']
+        save_log(log)
     return jsonify({"ok": True})
 
 @app.route('/profile')
