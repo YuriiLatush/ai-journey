@@ -4,9 +4,9 @@
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-I studied Marketing. Now I'm building AI systems full time.
+Marketing and logistics background. Two degrees. Now building AI systems full time while learning every day.
 
-Not because it's trendy — because I run projects in the real world and I see how much manual work can be automated. Started this journey in May 2026, building something every day.
+I got into this because I work with real businesses and see how much manual work can be automated.  shipping something new every day.
 
 Based in Los Angeles.
 
@@ -33,17 +33,24 @@ Based in Los Angeles.
 | Railway Deploy | First production deployment |
 | PostgreSQL Integration | Persistent database for leads |
 | n8n Webhook Automation | HOT lead → instant Telegram alert |
+| ChromaDB Vector Search | Semantic search with embeddings |
+| Hybrid Retrieval System | Semantic + keyword search combined |
+| Reranking Pipeline | GPT reranks search results |
+| LangGraph Agent | Graph-based multi-agent routing |
+| LangGraph + RAG | Agents with knowledge base |
+| PostgreSQL Session Memory | Persistent conversation history |
+| Production System v2 | LangGraph + RAG + PostgreSQL + Lead Scoring |
 
 ---
 
 ## Stack
-Python · OpenAI · PostgreSQL · Telegram Bot API · Railway · n8n · ngrok · LangChain
+Python · OpenAI · PostgreSQL · ChromaDB · LangGraph · Telegram Bot API · Railway · n8n · ngrok · LangChain
 
 ## Skills
-Prompt engineering · RAG · AI agents · Multi-agent systems · Harness engineering · Context engineering · Tool calling · Evals · Cost optimization
+Prompt engineering · RAG · Vector DB · Hybrid retrieval · Reranking · AI agents · Multi-agent systems · LangGraph · Harness engineering · Context engineering · Tool calling · Evals · Cost optimization
 
-## Target
-Getting into an AI startup as a builder. Not a prompt user — someone who ships.
+## What I'm looking for
+Open to internships and entry-level roles at AI startups. I want to be close to production — building, shipping, and learning fast.
 
 ## Contact
 [LinkedIn](https://linkedin.com/in/yurii-l-94082424b) · [GitHub](https://github.com/YuriiLatush)
