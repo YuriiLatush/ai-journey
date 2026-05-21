@@ -26,7 +26,7 @@ def load_log():
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r") as f:
             return json.load(f)
-    return []
+    return []score_chance
 
 def save_log(log):
     with open(LOG_FILE, "w") as f:
@@ -58,9 +58,22 @@ def generate_email(company, role, research, tone, resume):
     )
     return response.choices[0].message.content
 
-def score_chance(company, role, research, resume):
-    prompt = "Rate the chance (0-100) of getting a response to this cold email.\n\nPERSON:\n" + resume + "\n\nCOMPANY: " + company + "\nROLE: " + role + "\nRESEARCH: " + research + "\n\nBe honest. Consider: relevance of background, role match, company size.\n\nRespond with valid JSON only, no markdown:\n{\"score\": 75, \"reason\": \"one sentence\"}"
+def (company, role, research, resume):
+    prompt = '''You are a brutally honest recruiter. Rate the realistic chance (0-100) of getting a response to this cold email.
 
+PERSON:
+''' + resume + '''
+
+COMPANY: ''' + company + '''
+ROLE: ''' + role + '''
+RESEARCH: ''' + research + '''
+
+Be realistic and harsh. Consider: is this person background relevant? Do they have formal experience? Are they competing against experienced candidates?
+
+Typical scores: 10-25 = long shot, 26-50 = possible, 51-70 = decent chance, 71-85 = strong match.
+
+Respond with valid JSON only:
+{"score": 35, "reason": "one honest sentence"}'''
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
