@@ -26,7 +26,7 @@ def load_log():
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r") as f:
             return json.load(f)
-    return []score_chance
+    return []
 
 def save_log(log):
     with open(LOG_FILE, "w") as f:
