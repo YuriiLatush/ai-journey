@@ -48,24 +48,71 @@ def save_outreach(company: str, role: str, message: str):
     with open("outreach_log.json", "w") as f:
         json.dump(data, f, indent=2)
 
+def show_status():
+    if not os.path.exists("outreach_log.json"):
+        print("No outreach log found.")
+        return
+    
+    with open("outreach_log.json", "r") as f:
+        data = json.load(f)
+    
+    pending = [x for x in data if x["status"] == "pending"]
+    sent = [x for x in data if x["status"] == "sent"]
+    replied = [x for x in data if x["status"] == "replied"]
+    
+    print(f"\n=== Outreach Tracker ===")
+    print(f"Pending:  {len(pending)}")
+    print(f"Sent:     {len(sent)}")
+    print(f"Replied:  {len(replied)}")
+    print(f"Total:    {len(data)}\n")
+    
+    for item in data:
+        print(f"[{item['status'].upper()}] {item['company']} — {item['role']} ({item['date']})")
+
+def update_status(company: str, new_status: str):
+    if not os.path.exists("outreach_log.json"):
+        print("No log found.")
+        return
+    
+    with open("outreach_log.json", "r") as f:
+        data = json.load(f)
+    
+    for item in data:
+        if item["company"].lower() == company.lower():
+            item["status"] = new_status
+            print(f"Updated {company} → {new_status}")
+    
+    with open("outreach_log.json", "w") as f:
+        json.dump(data, f, indent=2)
+
 def main():
-    print("=== Cold Outreach AI Agent ===\n")
+    print("=== Cold Outreach AI Agent ===")
+    print("1. Generate message")
+    print("2. Show status")
+    print("3. Update status")
+    choice = input("\nChoice (1/2/3): ")
     
-    company = input("Company name: ")
-    role = input("Role: ")
-    context = input("What they do (1 sentence): ")
+    if choice == "1":
+        company = input("Company name: ")
+        role = input("Role: ")
+        context = input("What they do (1 sentence): ")
+        print("\nGenerating message...\n")
+        message = generate_message(company, role, context)
+        print("--- MESSAGE ---")
+        print(message)
+        print("---------------\n")
+        save = input("Save to log? (y/n): ")
+        if save == "y":
+            save_outreach(company, role, message)
+            print("Saved to outreach_log.json")
     
-    print("\nGenerating message...\n")
-    message = generate_message(company, role, context)
+    elif choice == "2":
+        show_status()
     
-    print("--- MESSAGE ---")
-    print(message)
-    print("---------------\n")
-    
-    save = input("Save to log? (y/n): ")
-    if save == "y":
-        save_outreach(company, role, message)
-        print("Saved to outreach_log.json")
+    elif choice == "3":
+        company = input("Company name: ")
+        new_status = input("New status (sent/replied/pending): ")
+        update_status(company, new_status)
 
 if __name__ == "__main__":
     main()
