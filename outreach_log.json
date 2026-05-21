@@ -1,0 +1,9 @@
+[
+  {
+    "date": "2026-05-21",
+    "company": "Perplexity",
+    "role": "AI Engineer",
+    "message": "Impressed by Perplexity's ability to deliver real-time answers using web results. I recently developed a retrieval-augmented generation (RAG) system that enhances user queries with live data integration. It leverages advanced LLM routing and utilizes vector databases for optimal efficiency. Open to a quick call?",
+    "status": "pending"
+  }
+]
