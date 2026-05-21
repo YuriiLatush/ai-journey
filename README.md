@@ -1,12 +1,16 @@
 # AI Journey 🚗
 
-![Python](https://img.shields.io/badge/Python-3.14-blue)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.14-blue?style=for-the-badge&logo=python)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT4o-black?style=for-the-badge&logo=openai)
+![LangGraph](https://img.shields.io/badge/LangGraph-Latest-orange?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)
+![Railway](https://img.shields.io/badge/Railway-Deployed-purple?style=for-the-badge)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-VectorDB-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 Marketing and logistics background. Two degrees. Now building AI systems full time while learning every day.
 
-I got into this because I work with real businesses and see how much manual work can be automated.  shipping something new every day.
+I got into this because I work with real businesses and see how much manual work can be automated. Shipping something new every day.
 
 Based in Los Angeles.
 
