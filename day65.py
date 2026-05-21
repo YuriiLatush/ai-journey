@@ -58,7 +58,7 @@ def generate_email(company, role, research, tone, resume):
     )
     return response.choices[0].message.content
 
-def (company, role, research, resume):
+def score_chance(company, role, research, resume):
     prompt = '''You are a brutally honest recruiter. Rate the realistic chance (0-100) of getting a response to this cold email.
 
 PERSON:
