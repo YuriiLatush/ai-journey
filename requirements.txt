@@ -1,5 +1,4 @@
-python-telegram-bot==21.6
+flask
 openai
 python-dotenv
-psycopg2-binary
-httpx
+requests

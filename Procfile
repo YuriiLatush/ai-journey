@@ -1,1 +1,1 @@
-worker: python day41.py
+web: python3 day65.py
