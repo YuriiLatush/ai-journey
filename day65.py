@@ -43,14 +43,37 @@ def research_company(company, context):
     return response.choices[0].message.content
 
 def generate_email(company, role, research, tone, resume):
-    tone_instructions = {
-        "friendly": "conversational and warm, like writing to someone you could work with",
+    tone_map = {
+        "friendly": "conversational and warm",
         "direct": "short and confident, zero fluff",
         "formal": "professional, respectful, still human"
     }
-    tone_desc = tone_instructions.get(tone, tone_instructions["friendly"])
+    tone_desc = tone_map.get(tone, "conversational and warm")
 
-    prompt = "You are Yurii Latushkin writing a cold outreach email.\n\nYOUR BACKGROUND:\n" + resume + "\n\nCOMPANY: " + company + "\nROLE: " + role + "\nRESEARCH: " + research + "\nTONE: " + tone_desc + "\n\nWrite the email now.\n\nFORMAT:\nSubject: [specific to this company, not generic, not boring]\n\n[email body]\n\nYurii Latushkin\n\nSTRICT RULES:\n- Good morning or Good afternoon to start, nothing else\n- 3 short paragraphs only\n- Paragraph 1: one specific thing about their company from the research that genuinely caught attention\n- Paragraph 2: who you are, what you built recently, keep it short\n- Paragraph 3: why this company specifically, what you are looking for\n- End: Would love a quick call if you are open to it.\n- Sign: Yurii Latushkin\n- NEVER USE: impressed, excited, passionate, leverage, elevate, aligns with, great match, innovative, thrilled, eager, synergy, resonates\n- Sound like a real person wrote this at their desk\n- Body under 120 words\n- No empty phrases"
+    prompt = (
+        "You are Yurii Latushkin writing a cold outreach email.\n\n"
+        "YOUR BACKGROUND:\n" + resume + "\n\n"
+        "COMPANY: " + company + "\n"
+        "ROLE: " + role + "\n"
+        "RESEARCH: " + research + "\n"
+        "TONE: " + tone_desc + "\n\n"
+        "Write the email now.\n\n"
+        "FORMAT:\n"
+        "Subject: [specific to this company, not generic]\n\n"
+        "[email body]\n\n"
+        "Yurii Latushkin\n\n"
+        "STRICT RULES:\n"
+        "- Start with Good morning or Good afternoon\n"
+        "- 3 short paragraphs only\n"
+        "- Paragraph 1: one specific thing about their company from the research\n"
+        "- Paragraph 2: who you are and what you built recently, keep it short\n"
+        "- Paragraph 3: why this company and what you are looking for\n"
+        "- End with: Would love a quick call if you are open to it.\n"
+        "- Sign with: Yurii Latushkin\n"
+        "- NEVER USE: impressed, excited, passionate, leverage, elevate, aligns with, great match, innovative, thrilled, eager\n"
+        "- Sound like a real person wrote this\n"
+        "- Body under 120 words"
+    )
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -59,21 +82,18 @@ def generate_email(company, role, research, tone, resume):
     return response.choices[0].message.content
 
 def score_chance(company, role, research, resume):
-    prompt = '''You are a brutally honest recruiter. Rate the realistic chance (0-100) of getting a response to this cold email.
+    prompt = (
+        "You are a brutally honest recruiter. Rate the realistic chance of getting a response to this cold email.\n\n"
+        "PERSON:\n" + resume + "\n\n"
+        "COMPANY: " + company + "\n"
+        "ROLE: " + role + "\n"
+        "RESEARCH: " + research + "\n\n"
+        "Be realistic. Consider: background relevance, formal experience, competition.\n"
+        "10-25 = long shot, 26-50 = possible, 51-70 = decent, 71-85 = strong match.\n\n"
+        "Respond with JSON only, no markdown:\n"
+        '{"score": 35, "reason": "one honest sentence"}'
+    )
 
-PERSON:
-''' + resume + '''
-
-COMPANY: ''' + company + '''
-ROLE: ''' + role + '''
-RESEARCH: ''' + research + '''
-
-Be realistic and harsh. Consider: is this person background relevant? Do they have formal experience? Are they competing against experienced candidates?
-
-Typical scores: 10-25 = long shot, 26-50 = possible, 51-70 = decent chance, 71-85 = strong match.
-
-Respond with valid JSON only:
-{"score": 35, "reason": "one honest sentence"}'''
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
@@ -93,13 +113,12 @@ HTML = """<!DOCTYPE html>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#f7f6f3;color:#1a1a1a;min-height:100vh;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:#f7f6f3;color:#1a1a1a;min-height:100vh}
 .sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#fff;border-right:1px solid #ebe9e4;padding:28px 20px;display:flex;flex-direction:column;z-index:10}
 .logo{font-size:16px;font-weight:700;margin-bottom:28px;color:#1a1a1a;display:flex;align-items:center;gap:8px}
 .logo-dot{width:8px;height:8px;background:#1a1a1a;border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.7}}
-.stat-big{background:#f7f6f3;border-radius:12px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
-.stat-big::after{content:'';position:absolute;top:-20px;right:-20px;width:60px;height:60px;background:#1a1a1a;border-radius:50%;opacity:0.04}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:0.6}}
+.stat-big{background:#f7f6f3;border-radius:12px;padding:16px;margin-bottom:12px}
 .stat-num{font-size:36px;font-weight:700;line-height:1}
 .stat-label{font-size:11px;color:#999;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
@@ -110,7 +129,6 @@ body{font-family:'Inter',sans-serif;background:#f7f6f3;color:#1a1a1a;min-height:
 .nav-item{padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#666;transition:all 0.15s;display:flex;align-items:center;gap:8px;margin-bottom:2px}
 .nav-item:hover{background:#f7f6f3;color:#1a1a1a}
 .nav-item.active{background:#1a1a1a;color:#fff}
-.nav-icon{font-size:14px}
 .main{margin-left:240px;padding:40px 48px;max-width:900px}
 .page{display:none;animation:fadeIn 0.25s ease}
 .page.active{display:block}
@@ -118,43 +136,37 @@ body{font-family:'Inter',sans-serif;background:#f7f6f3;color:#1a1a1a;min-height:
 .page-header{margin-bottom:32px}
 .page-title{font-size:28px;font-weight:700;margin-bottom:6px}
 .page-desc{color:#999;font-size:14px}
-.card{background:#fff;border:1px solid #ebe9e4;border-radius:16px;padding:28px;margin-bottom:20px;transition:box-shadow 0.2s}
-.card:hover{box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+.card{background:#fff;border:1px solid #ebe9e4;border-radius:16px;padding:28px;margin-bottom:20px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .field{margin-bottom:16px}
 label{display:block;font-size:11px;color:#999;margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.4px}
 input,textarea,select{width:100%;background:#faf9f7;border:1px solid #ebe9e4;border-radius:10px;padding:11px 14px;color:#1a1a1a;font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:all 0.15s}
-input:focus,textarea:focus{border-color:#1a1a1a;background:#fff;box-shadow:0 0 0 3px rgba(26,26,26,0.06)}
+input:focus,textarea:focus{border-color:#1a1a1a;background:#fff}
 textarea{resize:vertical;min-height:80px}
 .tone-group{display:flex;gap:8px;margin-top:6px}
 .tone-btn{padding:8px 18px;border-radius:20px;border:1.5px solid #ebe9e4;background:#fff;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif}
-.tone-btn:hover{border-color:#1a1a1a}
 .tone-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .btn{display:inline-flex;align-items:center;gap:8px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif}
 .btn:hover{background:#333;transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
 .btn:disabled{opacity:0.35;cursor:not-allowed;transform:none}
 .btn-ghost{background:#fff;color:#1a1a1a;border:1.5px solid #ebe9e4}
-.btn-ghost:hover{background:#f7f6f3;border-color:#ccc}
+.btn-ghost:hover{background:#f7f6f3}
 .btn-danger{background:#fff;color:#dc2626;border:1.5px solid #fecaca}
-.btn-danger:hover{background:#fef2f2}
 .result-tag{display:inline-block;background:#f7f6f3;border-radius:20px;padding:4px 14px;font-size:11px;color:#999;margin-bottom:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
 .result-box{background:#faf9f7;border:1px solid #ebe9e4;border-radius:12px;padding:20px;font-size:14px;line-height:1.8;white-space:pre-wrap;margin-bottom:16px}
-.score-section{background:#f7f6f3;border-radius:12px;padding:20px;margin-bottom:20px}
-.score-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.score-section{border-radius:12px;padding:20px;margin-bottom:20px}
 .score-number{font-size:48px;font-weight:700;line-height:1}
-.score-label{font-size:12px;color:#999;font-weight:500}
-.score-track{background:#e8e6e1;border-radius:20px;height:6px;overflow:hidden}
-.score-fill{height:6px;border-radius:20px;background:linear-gradient(90deg,#1a1a1a,#555);transition:width 1s cubic-bezier(0.4,0,0.2,1);width:0%}
-.score-reason{font-size:13px;color:#777;margin-top:10px;line-height:1.5}
+.score-label{font-size:12px;color:#999;font-weight:500;margin-top:4px}
+.score-track{border-radius:20px;height:8px;overflow:hidden;margin:12px 0}
+.score-fill{height:8px;border-radius:20px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);width:0%}
+.score-reason{font-size:13px;color:#777;line-height:1.5}
 .loading-overlay{display:none;text-align:center;padding:40px}
 .loading-overlay.show{display:block}
 .spinner{width:32px;height:32px;border:2.5px solid #e8e6e1;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:13px;color:#999}
 .loading-steps{display:flex;gap:16px;justify-content:center;margin-top:12px;font-size:12px;color:#bbb}
-.entry{background:#fff;border:1px solid #ebe9e4;border-radius:12px;padding:16px 20px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;transition:all 0.15s}
-.entry:hover{border-color:#ccc;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.entry{background:#fff;border:1px solid #ebe9e4;border-radius:12px;padding:16px 20px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .entry-co{font-size:14px;font-weight:600}
 .entry-meta{font-size:12px;color:#aaa;margin-top:3px}
 .badge{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
@@ -164,7 +176,6 @@ textarea{resize:vertical;min-height:80px}
 .profile-saved{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
 .email-preview{background:#fff;border:1px solid #ebe9e4;border-radius:12px;padding:24px;font-size:14px;line-height:1.8;white-space:pre-wrap;font-family:'Inter',sans-serif;position:relative}
 .email-preview::before{content:'EMAIL PREVIEW';position:absolute;top:-10px;left:16px;background:#fff;padding:0 8px;font-size:10px;color:#bbb;letter-spacing:1px}
-.copy-success{background:#f0fdf4;color:#15803d;border-color:#bbf7d0}
 .result-section{display:none}
 .result-section.show{display:block;animation:fadeIn 0.3s ease}
 </style>
@@ -181,13 +192,12 @@ textarea{resize:vertical;min-height:80px}
     <div class="stat-sm"><div class="stat-sm-num" id="replied-count">0</div><div class="stat-sm-label">Replied</div></div>
   </div>
   <div class="divider"></div>
-  <div class="nav-item active" onclick="showPage('generate',this)"><span class="nav-icon">✉</span>Generate</div>
-  <div class="nav-item" onclick="showPage('tracker',this)"><span class="nav-icon">◎</span>Tracker</div>
-  <div class="nav-item" onclick="showPage('profile',this)"><span class="nav-icon">◈</span>My Profile</div>
+  <div class="nav-item active" onclick="showPage('generate',this)">✉ Generate</div>
+  <div class="nav-item" onclick="showPage('tracker',this)">◎ Tracker</div>
+  <div class="nav-item" onclick="showPage('profile',this)">◈ My Profile</div>
 </div>
 
 <div class="main">
-
 <div class="page active" id="page-generate">
   <div class="page-header">
     <div class="page-title">Generate email</div>
@@ -198,7 +208,7 @@ textarea{resize:vertical;min-height:80px}
       <div><label>Company</label><input type="text" id="company" placeholder="Vapi, Perplexity..."></div>
       <div><label>Role</label><input type="text" id="role" placeholder="AI Engineer Intern"></div>
     </div>
-    <div class="field"><label>What they do</label><textarea id="context" rows="2" placeholder="One sentence about their product or focus..."></textarea></div>
+    <div class="field"><label>What they do</label><textarea id="context" rows="2" placeholder="One sentence about their product..."></textarea></div>
     <div class="field"><label>Tone</label>
       <div class="tone-group">
         <div class="tone-btn active" onclick="setTone('friendly',this)">Friendly</div>
@@ -213,9 +223,9 @@ textarea{resize:vertical;min-height:80px}
     <div class="spinner"></div>
     <div class="loading-text">Working on it...</div>
     <div class="loading-steps">
-      <span id="step1">◯ Researching company</span>
-      <span id="step2">◯ Writing email</span>
-      <span id="step3">◯ Scoring chance</span>
+      <span id="step1">◯ Researching</span>
+      <span id="step2">◯ Writing</span>
+      <span id="step3">◯ Scoring</span>
     </div>
   </div>
 
@@ -224,15 +234,15 @@ textarea{resize:vertical;min-height:80px}
       <div class="result-tag">Research</div>
       <div class="result-box" id="research-out" style="color:#777;font-size:13px"></div>
 
-      <div class="score-section">
-        <div class="score-header">
+      <div class="score-section" id="score-section">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px">
           <div>
             <div class="score-number" id="score-num">0</div>
             <div class="score-label">Chance of response</div>
           </div>
-          <div style="font-size:13px;color:#aaa" id="score-pct">%</div>
+          <div style="font-size:13px;color:#aaa">%</div>
         </div>
-        <div class="score-track"><div class="score-fill" id="score-fill"></div></div>
+        <div class="score-track" id="score-track"><div class="score-fill" id="score-fill"></div></div>
         <div class="score-reason" id="score-reason"></div>
       </div>
 
@@ -270,7 +280,6 @@ textarea{resize:vertical;min-height:80px}
     </div>
   </div>
 </div>
-
 </div>
 
 <script>
@@ -291,25 +300,27 @@ function setTone(t, el) {
   el.classList.add('active');
 }
 
+function getScoreColor(score) {
+  if (score <= 25) return { bg: '#fef2f2', fill: '#ef4444', track: '#fecaca' };
+  if (score <= 50) return { bg: '#fff7ed', fill: '#f97316', track: '#fed7aa' };
+  if (score <= 70) return { bg: '#fefce8', fill: '#eab308', track: '#fef08a' };
+  return { bg: '#f0fdf4', fill: '#22c55e', track: '#bbf7d0' };
+}
+
 function animateSteps() {
   const steps = ['step1','step2','step3'];
   let i = 0;
   const interval = setInterval(() => {
-    if (i > 0) document.getElementById(steps[i-1]).style.color = '#1a1a1a';
     if (i < steps.length) {
-      document.getElementById(steps[i]).style.color = '#1a1a1a';
       document.getElementById(steps[i]).textContent = document.getElementById(steps[i]).textContent.replace('◯','●');
       i++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 800);
+    } else clearInterval(interval);
+  }, 900);
 }
 
 function resetSteps() {
   ['step1','step2','step3'].forEach(s => {
     const el = document.getElementById(s);
-    el.style.color = '';
     el.textContent = el.textContent.replace('●','◯');
   });
 }
@@ -336,11 +347,16 @@ async function generate() {
 
     document.getElementById('research-out').textContent = data.research;
     document.getElementById('email-out').textContent = data.email;
+    document.getElementById('score-reason').textContent = data.reason;
+
+    const colors = getScoreColor(data.score);
+    const section = document.getElementById('score-section');
+    section.style.background = colors.bg;
+    document.getElementById('score-fill').style.background = colors.fill;
+    document.getElementById('score-track').style.background = colors.track;
 
     document.getElementById('score-num').textContent = '0';
     document.getElementById('score-fill').style.width = '0%';
-    document.getElementById('score-reason').textContent = data.reason;
-
     document.getElementById('result-section').classList.add('show');
     document.getElementById('loading').classList.remove('show');
     document.getElementById('gen-btn').disabled = false;
@@ -348,14 +364,13 @@ async function generate() {
     setTimeout(() => {
       let current = 0;
       const target = data.score;
-      const step = target / 40;
       const timer = setInterval(() => {
-        current = Math.min(current + step, target);
+        current = Math.min(current + 2, target);
         document.getElementById('score-num').textContent = Math.round(current);
         document.getElementById('score-fill').style.width = current + '%';
         if (current >= target) clearInterval(timer);
-      }, 25);
-    }, 300);
+      }, 20);
+    }, 400);
 
     loadCounts();
   } catch(e) {
@@ -365,12 +380,10 @@ async function generate() {
 }
 
 function copyEmail() {
-  const text = document.getElementById('email-out').textContent;
-  navigator.clipboard.writeText(text);
+  navigator.clipboard.writeText(document.getElementById('email-out').textContent);
   const btn = document.getElementById('copy-btn');
   btn.textContent = '✓ Copied';
-  btn.classList.add('copy-success');
-  setTimeout(() => { btn.textContent = 'Copy email'; btn.classList.remove('copy-success'); }, 2000);
+  setTimeout(() => { btn.innerHTML = 'Copy email'; }, 2000);
 }
 
 async function loadCounts() {
@@ -386,24 +399,14 @@ async function loadTracker() {
   const d = await res.json();
   const el = document.getElementById('tracker-list');
   if (!d.entries.length) {
-    el.innerHTML = '<p style="color:#aaa;font-size:14px;padding:20px 0">No emails generated yet.</p>';
+    el.innerHTML = '<p style="color:#aaa;font-size:14px;padding:20px 0">No emails yet.</p>';
     return;
   }
-  el.innerHTML = d.entries.map(e => `
-    <div class="entry">
-      <div>
-        <div class="entry-co">${e.company}</div>
-        <div class="entry-meta">${e.role} &middot; ${e.date} &middot; ${e.score || 0}% chance</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <select onchange="updateStatus('${e.company}','${e.date}',this.value)" style="width:100px;font-size:12px;padding:5px 8px;border-radius:8px">
-          <option ${e.status==='pending'?'selected':''}>pending</option>
-          <option ${e.status==='sent'?'selected':''}>sent</option>
-          <option ${e.status==='replied'?'selected':''}>replied</option>
-        </select>
-      </div>
-    </div>
-  `).join('');
+  el.innerHTML = d.entries.map(e => {
+    const score = e.score || 0;
+    const colors = score <= 25 ? '#ef4444' : score <= 50 ? '#f97316' : score <= 70 ? '#eab308' : '#22c55e';
+    return '<div class="entry"><div><div class="entry-co">' + e.company + '</div><div class="entry-meta">' + e.role + ' · ' + e.date + ' · <span style="color:' + colors + ';font-weight:600">' + score + '%</span></div></div><select onchange="updateStatus(\'' + e.company + '\',\'' + e.date + '\',this.value)" style="width:100px;font-size:12px;padding:5px 8px;border-radius:8px"><option ' + (e.status==='pending'?'selected':'') + '>pending</option><option ' + (e.status==='sent'?'selected':'') + '>sent</option><option ' + (e.status==='replied'?'selected':'') + '>replied</option></select></div>';
+  }).join('');
 }
 
 async function updateStatus(company, date, status) {
@@ -417,19 +420,10 @@ async function loadProfile() {
   const display = document.getElementById('profile-display');
   const form = document.getElementById('profile-form');
   if (d.resume) {
-    display.innerHTML = `<div class="profile-saved">
-      <div>
-        <div style="font-size:14px;font-weight:600;margin-bottom:4px">Profile saved</div>
-        <div style="font-size:12px;color:#888">${d.resume.substring(0,100)}...</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost" onclick="editProfile()" style="padding:8px 14px;font-size:13px">Edit</button>
-        <button class="btn btn-danger" onclick="deleteProfile()" style="padding:8px 14px;font-size:13px">Delete</button>
-      </div>
-    </div>`;
+    display.innerHTML = '<div class="profile-saved"><div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Profile saved</div><div style="font-size:12px;color:#888">' + d.resume.substring(0,100) + '...</div></div><div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="editProfile()" style="padding:8px 14px;font-size:13px">Edit</button><button class="btn btn-danger" onclick="deleteProfile()" style="padding:8px 14px;font-size:13px">Delete</button></div></div>';
     form.style.display = 'none';
   } else {
-    display.innerHTML = '<p style="color:#aaa;font-size:14px;margin-bottom:20px">No profile yet. Add your background so emails are personalized to you.</p>';
+    display.innerHTML = '<p style="color:#aaa;font-size:14px;margin-bottom:20px">No profile yet. Add your background so emails are personalized.</p>';
     form.style.display = 'block';
   }
 }
@@ -520,5 +514,5 @@ def delete_profile():
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
-   port = int(os.environ.get("PORT", 5001))
-   app.run(debug=False, host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(debug=False, host="0.0.0.0", port=port)
