@@ -192,7 +192,7 @@ textarea{resize:vertical;min-height:80px}
     <div class="stat-sm"><div class="stat-sm-num" id="replied-count">0</div><div class="stat-sm-label">Replied</div></div>
   </div>
   <div class="divider"></div>
-  <div class="nav-item active" onclick="showPage('generate',this)">✉ Generate</div>
+  <div class="nav-item active" onclick="showPage('generate', this)">✉ Generate</div>
   <div class="nav-item" onclick="showPage('tracker',this)">◎ Tracker</div>
   <div class="nav-item" onclick="showPage('profile',this)">◈ My Profile</div>
 </div>
