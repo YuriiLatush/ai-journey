@@ -42,6 +42,25 @@ def research_company(company, context):
     )
     return response.choices[0].message.content
 
+def find_email(company, domain=""):
+    import requests
+    api_key = os.environ.get("HUNTER_API_KEY", "")
+    if not api_key:
+        return None
+    try:
+        if domain:
+            url = f"https://api.hunter.io/v2/domain-search?domain={domain}&api_key={api_key}&limit=1"
+        else:
+            url = f"https://api.hunter.io/v2/domain-search?company={company}&api_key={api_key}&limit=1"
+        response = requests.get(url, timeout=5)
+        data = response.json()
+        emails = data.get("data", {}).get("emails", [])
+        if emails:
+            return emails[0].get("value")
+        return None
+    except:
+        return None
+
 def generate_email(company, role, research, tone, resume):
     tone_map = {
         "friendly": "conversational and warm",
@@ -178,6 +197,14 @@ textarea{resize:vertical;min-height:80px}
 .email-preview::before{content:'EMAIL PREVIEW';position:absolute;top:-10px;left:16px;background:#fff;padding:0 8px;font-size:10px;color:#bbb;letter-spacing:1px}
 .result-section{display:none}
 .result-section.show{display:block;animation:fadeIn 0.3s ease}
+.email-found{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:12px}
+.email-found-icon{font-size:18px}
+.email-found-label{font-size:11px;color:#15803d;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px}
+.email-found-value{font-size:14px;font-weight:600;color:#14532d}
+.email-notfound{background:#fefce8;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:12px}
+.email-notfound-icon{font-size:18px}
+.email-notfound-label{font-size:11px;color:#92400e;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px}
+.email-notfound-value{font-size:13px;color:#78350f}
 </style>
 </head>
 <body>
@@ -248,6 +275,7 @@ textarea{resize:vertical;min-height:80px}
 
       <div class="result-tag">Email</div>
       <div class="email-preview" id="email-out"></div>
+      <div id="found-email-box"></div>
 
       <div style="display:flex;gap:10px;margin-top:20px">
         <button class="btn" id="copy-btn" onclick="copyEmail()">Copy email</button>
@@ -348,6 +376,13 @@ async function generate() {
     document.getElementById('research-out').textContent = data.research;
     document.getElementById('email-out').textContent = data.email;
     document.getElementById('score-reason').textContent = data.reason;
+
+    const emailBox = document.getElementById('found-email-box');
+    if (data.found_email && !data.found_email.startsWith('Not found')) {
+      emailBox.innerHTML = '<div class="email-found"><div class="email-found-icon">✉</div><div><div class="email-found-label">Contact email found</div><div class="email-found-value">' + data.found_email + '</div></div></div>';
+    } else {
+      emailBox.innerHTML = '<div class="email-notfound"><div class="email-notfound-icon">⚠</div><div><div class="email-notfound-label">Email not found</div><div class="email-notfound-value">Search manually on LinkedIn or the company website</div></div></div>';
+    }
 
     const colors = getScoreColor(data.score);
     const section = document.getElementById('score-section');
@@ -464,6 +499,7 @@ def generate():
     profile = load_profile()
     resume = profile.get('resume', 'Marketing background, building AI systems full time. Built LangGraph agents, RAG systems, PostgreSQL deployments on Railway.')
     research = research_company(data['company'], data['context'])
+    found_email = find_email(data['company'])
     email = generate_email(data['company'], data['role'], research, data.get('tone','friendly'), resume)
     chance = score_chance(data['company'], data['role'], research, resume)
     log = load_log()
@@ -476,7 +512,7 @@ def generate():
         "status": "pending"
     })
     save_log(log)
-    return jsonify({"research": research, "email": email, "score": chance.get('score',50), "reason": chance.get('reason','')})
+    return jsonify({"research": research, "email": email, "score": chance.get('score',50), "reason": chance.get('reason',''), "found_email": found_email or "Not found — search manually"})
 
 @app.route('/counts')
 def counts():
