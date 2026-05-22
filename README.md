@@ -8,6 +8,13 @@
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-VectorDB-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
+## Featured Projects
+
+| Project | Description | Live |
+|---------|-------------|------|
+| [Elite Transportation AI](https://github.com/YuriiLatush/elite-transportation-ai) | LangGraph + RAG + PostgreSQL + Lead Scoring | Railway |
+| [AI Outreach Agent](https://github.com/YuriiLatush/outreach-agent) | Flask + OpenAI + Hunter.io — deployed | [Live](https://web-production-3e872.up.railway.app) |
+
 Marketing and logistics background. Two degrees. Now building AI systems full time while learning every day.
 
 I got into this because I work with real businesses and see how much manual work can be automated. Shipping something new every day.
